@@ -2,7 +2,6 @@
 
 parts =
     pyramid
-    pack
 
 versions=versions
 
@@ -21,7 +20,7 @@ eggs =
   ${project}
   Pillow
 
-[pack]
-recipe = z3c.recipe.usercrontab
-times = 30 3 * * *
-command = . $HOME/.profile; . $HOME/bin/activate; cd $HOME/buildout; ./bin/paster pycms_pack $ENVIRONMENT.ini
+[supervisor]
+port=6874
+programs +=
+    10 process0 $${buildout:directory}/bin/paster [serve prd.ini] $${buildout:directory} true

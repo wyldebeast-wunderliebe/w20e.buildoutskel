@@ -1,0 +1,16 @@
+[buildout]
+extends =
+    buildout-plone4.cfg
+
+# Project-specific version pinnings
+[versions]
+zc.buildout= 1.5.1
+buildout.dumppickedversions= 0.5
+
+[instance]
+# Project-specific eggs go here
+eggs +=
+     ${project}
+
+# ZCML-registry for project-specific eggs, if necessary
+zcml +=

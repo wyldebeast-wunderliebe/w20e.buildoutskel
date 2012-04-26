@@ -1,0 +1,72 @@
+global
+  log 127.0.0.1 local6
+  maxconn  ${haproxy-conf:maxconn}
+  user     ${haproxy-conf:user}
+  group    ${haproxy-conf:group}
+  daemon
+  nbproc 1
+  stats socket /tmp/${haproxy-conf:user} user ${haproxy-conf:user} level admin
+
+defaults
+  mode http
+  option httpclose
+  # Remove requests from the queue if people press stop button
+  option abortonclose
+  # Try to connect this many times on failure
+  retries 3
+  # If a client is bound to a particular backend but it goes down,
+  # send them to a different one
+  option redispatch
+  monitor-uri /haproxy-ping
+
+  timeout connect 7s
+  timeout queue   300s
+  timeout client  300s
+  timeout server  300s
+
+  # Enable status page at this URL, on the port HAProxy is bound to
+  stats enable
+  stats uri /haproxy-status
+  stats refresh 5s
+  stats realm Haproxy\ statistics
+
+frontend varnish
+  bind ${haproxy-conf:bind}
+  default_backend back_anon
+
+  acl acl_auth hdr_sub(cookie) __ac=
+  use_backend back_auth if acl_auth
+
+# Load balancing over the zope instances
+backend back_auth
+  log global
+
+  cookie serverid insert nocache indirect
+
+  balance roundrobin
+  # Use / (the default) for periodic backend health checks
+  option httpchk
+
+  # Server options:
+  # "cookie" sets the value of the serverid cookie to be used for the server
+  # "maxconn" is how many connections can be sent to the server at once
+  # "check" enables health checks
+  # "rise 1" means consider Zope up after 1 successful health check
+        ${haproxy-conf:auth-backends}
+
+# Load balancing over the zope instances
+backend back_anon
+  log global
+
+  balance roundrobin
+  # Use / (the default) for periodic backend health checks
+  option httpchk
+
+  # Server options:
+  # "cookie" sets the value of the serverid cookie to be used for the server
+  # "maxconn" is how many connections can be sent to the server at once
+  # "check" enables health checks
+  # "rise 1" means consider Zope up after 1 successful health check
+        ${haproxy-conf:anon-backends}
+
+

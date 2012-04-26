@@ -1,0 +1,26 @@
+[buildout]
+parts = django static
+unzip = true
+eggs = 
+     ${project}
+ 
+versions = versions
+
+[versions]
+django = 1.3.1
+
+[django]
+recipe = djangorecipe
+settings = settings
+eggs = 
+     ${buildout:eggs}
+project = hotelships
+wsgi = true
+wsgilog = ${buildout:directory}/../var/log/wsgi.log
+
+[static]
+recipe = iw.recipe.cmd
+on_install = true
+on_update = true
+cmds =
+     ${buildout:directory}/bin/django collectstatic --noinput

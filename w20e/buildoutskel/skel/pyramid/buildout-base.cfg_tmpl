@@ -1,0 +1,27 @@
+[buildout]
+
+parts =
+    pyramid
+    pack
+
+versions=versions
+
+[versions]
+
+pyramid = 1.3b2
+
+
+[pyramid]
+recipe = zc.recipe.egg
+eggs =
+  nose
+  PasteScript
+  pyramid
+  pyramid_zcml
+  ${project}
+  Pillow
+
+[pack]
+recipe = z3c.recipe.usercrontab
+times = 30 3 * * *
+command = . $HOME/.profile; . $HOME/bin/activate; cd $HOME/buildout; ./bin/paster pycms_pack $ENVIRONMENT.ini

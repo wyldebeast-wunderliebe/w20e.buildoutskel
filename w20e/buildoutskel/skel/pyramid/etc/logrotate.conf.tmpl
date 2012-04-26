@@ -1,0 +1,20 @@
+# see "man logrotate" for details
+# rotate log files weekly
+daily
+
+# keep 4 weeks worth of backlogs
+rotate 1
+
+# create new (empty) log files after rotating old ones
+create
+
+# uncomment this if you want your log files compressed
+compress
+
+# uncomment these to switch compression to bzip2
+compresscmd /bin/bzip2
+uncompresscmd /bin/bunzip2
+
+# former versions had to have the compresscommand set accordingly
+compressext .bz2
+

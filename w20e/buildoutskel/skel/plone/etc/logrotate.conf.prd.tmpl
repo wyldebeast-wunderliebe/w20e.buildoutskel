@@ -1,0 +1,32 @@
+# see "man logrotate" for details
+# rotate log files weekly
+daily
+
+# keep 4 weeks worth of backlogs
+rotate 1
+
+# create new (empty) log files after rotating old ones
+create
+
+# uncomment this if you want your log files compressed
+compress
+
+# uncomment these to switch compression to bzip2
+compresscmd /bin/bzip2
+uncompresscmd /bin/bunzip2
+
+# former versions had to have the compresscommand set accordingly
+compressext .bz2
+
+# kill -USR2 on the zope process will reopen the logfiles
+${buildout:directory}/var/log/instance0.log
+${buildout:directory}/var/log/instance1.log
+${buildout:directory}/var/log/instance0-Z2.log
+${buildout:directory}/var/log/instance1-Z2.log {
+    sharedscripts
+    postrotate
+        /bin/kill -USR2 $(cat ${buildout:directory}/var/instance0.pid)
+        /bin/kill -USR2 $(cat ${buildout:directory}/var/instance1.pid)
+    endscript
+}
+

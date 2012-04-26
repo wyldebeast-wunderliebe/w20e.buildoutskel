@@ -1,0 +1,10 @@
+The configuration files provided here are intended to be used for a
+Pyramid project, using the ZODB.
+
+The following files are provided:
+
+* pack.cfg
+* varnish.cfg
+* haproxy.cfg
+* supervisor.cfg
+* logrotate.cfg

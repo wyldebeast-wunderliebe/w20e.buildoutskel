@@ -3,8 +3,7 @@
 extensions += 
     mr.developer
 
-# Presumably you'd at least want the current project here...
-auto-checkout = ${project}
+auto-checkout = 
 
 sources = sources
 

@@ -1,0 +1,14 @@
+[buildout]
+
+parts = pyramid
+versions = versions
+
+[versions]
+
+[pyramid]
+recipe = zc.recipe.egg
+eggs =
+  nose
+  ${project}
+  Pillow
+  PasteScript

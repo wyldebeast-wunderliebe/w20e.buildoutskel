@@ -2,7 +2,7 @@ from paste.script.templates import Template, var
 import os
 
 vars = [
-    var("type", "What type of project do you want? [plone|pyramid|django]"),
+    var("type", "What type of project do you want? [plone|pyramid|django|pycms]"),
     ]
 
 class BuildoutSkel(Template):

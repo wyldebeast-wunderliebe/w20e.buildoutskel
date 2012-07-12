@@ -1,0 +1,67 @@
+[app:main]
+use = egg:${project}
+pyramid.reload_templates = true
+pyramid.debug_authorization = false
+pyramid.debug_notfound = false
+pyramid.debug_routematch = false
+pyramid.debug_templates = true
+pyramid.default_locale_name = en
+pyramid.includes = pyramid_debugtoolbar
+                   pyramid_zodbconn
+                   pyramid_tm
+tm.attempts = 3
+zodbconn.uri = file://%(here)s/Data.fs?connection_cache_size=1000&blobstorage_dir=/%(here)s/blobdir
+
+mail.host = localhost
+mail.port = 8025
+#mail.host = smtp.gmail.com
+#mail.port = 587
+#mail.tls = True
+#mail.username = 
+#mail.password =
+
+pycms.admin_user = admin:admin
+
+pycms.from_addr = you@yourdomain.com
+pycms.bcc_addr = theotherone@yourdomain.com
+
+pycms.minify_css = true
+pycms.minify_js = true
+
+# Please check PyCMS README for other options
+
+[server:main]
+use = egg:Paste#http
+host = 0.0.0.0
+port = 6543
+
+# Begin logging configuration
+
+[loggers]
+keys = root, ${project}
+
+[handlers]
+keys = console
+
+[formatters]
+keys = generic
+
+[logger_root]
+level = INFO
+handlers = console
+
+[logger_${project}]
+level = DEBUG
+handlers =
+qualname = ${project}
+
+[handler_console]
+class = StreamHandler
+args = (sys.stderr,)
+level = NOTSET
+formatter = generic
+
+[formatter_generic]
+format = %(asctime)s %(levelname)-5.5s [%(name)s][%(threadName)s] %(message)s
+
+# End logging configuration

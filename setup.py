@@ -8,7 +8,7 @@ requires = [
     ]
 
 setup(name='w20e.buildoutskel',
-      version='0.0',
+      version='1.0.0a',
       description='Paster template',
       long_description="",
       classifiers=[
